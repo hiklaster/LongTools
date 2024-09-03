@@ -132,4 +132,115 @@ public class StringUtils {
         if(str == null || str.length() == 0 || subStr == null || subStr.length() == 0) return false;
         return Pattern.matches(subStr,str);
     }
+
+    /**
+     * 判断字符串内容是否为空
+     * @param str 传入的字符串，不能为null
+     * @return 判断结果
+     */
+    public static boolean isEmpty(String str){
+        if(str == null) throw new IllegalArgumentException("String参数不能为null");
+        return str.length() == 0;
+    }
+
+    /**
+     * 判断字符串是否以某一字符串开头
+     * @param str 字符串内容
+     * @param prefix 开头的字符串
+     * @return 是否以某一字符串开头的判断结果
+     */
+    public static boolean startsWith(String str,String prefix){
+        char[] chs1 = str.toCharArray();
+        char[] chs2 = prefix.toCharArray();
+        boolean result = true;
+        for (int i = 0; i < chs2.length; i++) {
+            if(chs1[i] != chs2[i]){
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 判断字符串是否以某段内容结尾
+     * @param str 需判断字符串
+     * @param suffix 结尾字符串
+     * @return 判断结果
+     */
+    public static boolean endsWith(String str,String suffix){
+        char[] chs1 = str.toCharArray();
+        char[] chs2 = suffix.toCharArray();
+        boolean result = true;
+        for (int i = chs2.length - 1,j = chs1.length - 1; i >= 0; i--,j--) {
+            if(chs1[j] != chs2[i]){
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 判断两个字符串内容是否相等
+     * @param first 第一个字符串
+     * @param second 第二个字符串
+     * @return 是否相等的比较结果
+     */
+    public static boolean equals(String first,String second){
+        if(first.length() != second.length()) return false;
+        char[] chs1 = first.toCharArray();
+        char[] chs2 = second.toCharArray();
+        boolean result = true;
+        for (int i = 0; i < chs1.length; i++) {
+            if(chs1[i] != chs2[i]){
+                result = false;
+                break;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 忽略大小写判断两个字符串内容是否相等(只判断26个英文字母)
+     * @param first 第一个字符串
+     * @param second 第二个字符串
+     * @return 是否相等的判断结果
+     */
+    public static boolean equalsIgnore(String first,String second){
+        if(first.length() != second.length()) return false;
+        char[] chs1 = first.toCharArray();
+        char[] chs2 = second.toCharArray();
+        boolean result = true;
+        for (int i = 0; i < chs1.length; i++) {
+            if(chs1[i] != chs2[i]){
+                if(!equalsIgnoreChar(chs1[i],chs2[i])){
+                    result = false;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 判断字符是否属于26个大小写英文字母
+     * @param ch 需判断的字符
+     * @return 判断结果
+     */
+    private static boolean isLetter(char ch){
+        //a-z 65-90 A-Z 97-122 97-65=32
+        return (ch >= 'a' && ch <= 'z') || (ch >='A' && ch <= 'Z');
+    }
+
+    /**
+     * 判断两个字符是否是相应的大小写对应字母
+     * @param ch1 第一个字符
+     * @param ch2 第二个字符
+     * @return 是/否对应的大小写字母
+     */
+    private static boolean equalsIgnoreChar(char ch1,char ch2){
+        if(!isLetter(ch1) || !isLetter(ch2)) return false;
+        return ch1 - ch2 == 32;
+    }
 }
