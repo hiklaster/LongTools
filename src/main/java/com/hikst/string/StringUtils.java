@@ -1,5 +1,6 @@
 package com.hikst.string;
 
+import java.lang.reflect.Field;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -242,5 +243,104 @@ public class StringUtils {
     private static boolean equalsIgnoreChar(char ch1,char ch2){
         if(!isLetter(ch1) || !isLetter(ch2)) return false;
         return ch1 - ch2 == 32;
+    }
+
+    /**
+     * 把字符数组转换为字符串
+     * @param chs 字符数组
+     * @return 转换后的字符串
+     */
+    public static String valueOf(char[] chs){
+//        return new String(chs);
+        return String.valueOf(chs);
+    }
+
+    /**
+     * 把int数字转为字符串
+     * @param i int型数字
+     * @return 转换后的字符串
+     */
+    public static String valueOf(int i){
+        return Integer.toString(i);
+    }
+
+    /**
+     * 把浮点型float数字转为字符串
+     * @param f 单精度浮点数
+     * @return 转换后的字符串
+     */
+    public static String valueOf(float f){
+        return Float.toString(f);
+    }
+
+    /**
+     * 把双精度浮点数转为字符串
+     * @param d 双精度浮点数
+     * @return 转换后的字符串
+     */
+    public static String valueOf(double d){
+        return Double.toString(d);
+    }
+
+    /**
+     * 单个字符转为字符串
+     * @param c 单个字符
+     * @return 转换后的字符串
+     */
+    public static String valueOf(char c){
+        return Character.toString(c);
+    }
+
+    /**
+     * 长整型转为字符串
+     * @param l 长整型数字
+     * @return 转换后的字符串
+     */
+    public static String valueOf(long l){
+        return Long.toString(l);
+    }
+
+    /**
+     * 短整型数字转为字符串
+     * @param s 短整型数字
+     * @return 转换后的字符串
+     */
+    public static String valueOf(short s){
+        return Short.toString(s);
+    }
+
+    /**
+     * 布尔类型转为字符串
+     * @param b 布尔值
+     * @return 转换后的字符串
+     */
+    public static String valueOf(boolean b){
+        return Boolean.toString(b);
+    }
+
+    /**
+     * 对象转为字符串
+     * @param o 需转换的对象
+     * @return null或调用传入对象的toString方法
+     */
+    public static String valueOf(Object o){
+        return o == null ? "null" : o.toString();
+    }
+
+    /**
+     * 将字符串转为字符数组
+     * @param str 需转换的字符串
+     * @return 被转换成功的字符数组
+     * @throws NoSuchFieldException String类中没有对应字段名
+     * @throws IllegalAccessException 字段的类对象获取对象不正确，不是要求的String类型
+     */
+    public static char[] toCharArray(String str) throws NoSuchFieldException, IllegalAccessException {
+        //通过反射获取String内部保存的数据结构中的数据value
+        Class<? extends String> clazz = str.getClass();
+        Field v = clazz.getDeclaredField("value");
+        v.setAccessible(true);
+        char[] result = (char[])v.get(str);
+        return result;
+        // 最简单方式 return str.toCharArray()
     }
 }
